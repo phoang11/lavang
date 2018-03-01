@@ -2,7 +2,7 @@ core: 8.x
 type: theme
 base theme: bootstrap
 
-name: 'LaVang'
+name: 'Olvn'
 description: 'LaVang theme uses the jsDelivr CDN for all CSS and JavaScript.'
 
 
@@ -20,4 +20,4 @@ regions:
   page_bottom: 'Page bottom'
 
 libraries:
-  - 'lavang/global-styling'
+  - 'olvn/global-styling'

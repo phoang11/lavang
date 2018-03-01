@@ -22,7 +22,7 @@
         "drupal/admin_toolbar": "^1.23",
         "drupal/bootstrap": "^3.9",
         "drupal/console": "^1.0.2",
-        "drupal/core": "~8.5.0-beta1",
+        "drupal/core": "~8.5.0-rc1",
         "drupal/pathauto": "^1.0",
         "drupal/redirect": "^1.0",
         "drush/drush": "^9.0.0",
@@ -30,7 +30,7 @@
         "webmozart/path-util": "^2.3"
     },
     "require-dev": {
-        "webflo/drupal-core-require-dev": "~8.5"
+        "webflo/drupal-core-require-dev": "~8.5.0-rc1"
     },
     "conflict": {
         "drupal/drupal": "*"

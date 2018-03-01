@@ -1,5 +1,5 @@
 # Schema for the theme setting configuration file of the THEMETITLE theme.
 
-lavang.settings:
+olvn.settings:
   type: theme_settings
-  label: 'lavang settings'
+  label: 'Olvn settings'
