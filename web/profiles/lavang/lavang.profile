@@ -86,3 +86,7 @@ function lavang_form_install_configure_form_alter(&$form, FormStateInterface $fo
 function lavang_form_install_configure_submit() {
 
 }
+
+function _lavang_clean_alias($text) {
+  return preg_replace('/\-+/', '-', strtolower(preg_replace('/[^a-zA-Z0-9_-]+/', '', str_replace(' ', '-', $text))));
+}
