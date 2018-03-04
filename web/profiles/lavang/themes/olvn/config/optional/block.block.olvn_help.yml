@@ -1,3 +1,4 @@
+uuid: c0fd0816-8be0-49c0-be22-f4b13c4d2c17
 langcode: en
 status: true
 dependencies:
@@ -5,6 +6,8 @@ dependencies:
     - help
   theme:
     - olvn
+_core:
+  default_config_hash: lNPSf2S0q3jSPzYTOLxWppG4jtCMoatZ-p1679A9N1Q
 id: olvn_help
 theme: olvn
 region: help

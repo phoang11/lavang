@@ -7,7 +7,6 @@
 
 use Drupal\user\Entity\User;
 use Drupal\user\RoleInterface;
-use Drupal\shortcut\Entity\Shortcut;
 use Drupal\node\Entity\Node;
 use Drupal\menu_link_content\Entity\MenuLinkContent;
 
@@ -22,10 +21,6 @@ function lavang_install() {
   // Set front page to "node".
   \Drupal::configFactory()->getEditable('system.site')->set('page.front', '/node')->save(TRUE);
 
-  // Allow visitor account creation with administrative approval.
-  $user_settings = \Drupal::configFactory()->getEditable('user.settings');
-  $user_settings->set('register', USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL)->save(TRUE);
-
   // Assign user 1 the "administrator" role.
   $user = User::load(1);
   $user->roles[] = 'administrator';
@@ -39,65 +34,43 @@ function lavang_install() {
   // Allow authenticated users to use shortcuts.
   user_role_grant_permissions(RoleInterface::AUTHENTICATED_ID, ['access shortcuts']);
 
-  // Populate the default shortcut set.
-  $shortcut = Shortcut::create([
-    'shortcut_set' => 'default',
-    'title' => t('Add content'),
-    'weight' => -20,
-    'link' => ['uri' => 'internal:/node/add'],
-  ]);
-  $shortcut->save();
-
-  $shortcut = Shortcut::create([
-    'shortcut_set' => 'default',
-    'title' => t('All content'),
-    'weight' => -19,
-    'link' => ['uri' => 'internal:/admin/content'],
-  ]);
-  $shortcut->save();
-
   // Enable the admin theme.
   \Drupal::configFactory()->getEditable('node.settings')->set('use_admin_theme', TRUE)->save(TRUE);
 
-  giaoxu();
-  phungvu();
-  hoidoan();
-  truyenthong();
-  truonghoc();
-  lienlac();
+  _lavang_content_giao_xu(1);
+  _lavang_content_phung_vu(2);
+  _lavang_content_hoi_doan(3);
+  _lavang_content_thong_tin(4);
+  _lavang_content_truong_hoc(5);
 }
 
-function giaoxu() {
-    // Create Map and Directions node page.
-  $node = Node::create(array(
-    'type' => 'page',
-    'title' => 'Lịch Sử',
-    'uid' => '1',
-    'status' => 1,
-    'path' => '/about/' . _lavang_clean_alias('Lịch Sử'),
-  ));
-  $node->body->value = '<h3>Come Visit Us at minimal!</h3>
-    <p>Come find us just three right turns past the downtown circle then left into the big open parking lot. &nbsp;Look for the brick building and come on in!</p>
-    <p>If you want to share a map you could embed a custom map from google, mapquest, or bing. &nbsp;Whatever you decide just be sure to consider those who may come from any direction and might need different instructions. &nbsp;</p>
-    <p><iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1&amp;output=embed"></iframe></p><p><small><a href="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1" style="color:#0000FF;text-align:left">View Larger Map</a></small></p>';
-  $node->body->format = 'full_html';
-  $node->save();
+function _lavang_content_giao_xu($menu_weight) {
 
-
-// Create link to About page.
+  // Create link to Giáo Xứ page.
   $menu_link = MenuLinkContent::create([
     'title'      => 'Giáo Xứ',
-    'link'       => ['uri' => 'internal:/node/1'],
+    'link'       => ['uri' => 'internal:/giao-xu'],
     'menu_name'  => 'main',
-    'weight'     => 0,
+    'weight'     => $menu_weight,
     'expanded' => 1,
-    // 'uuid'       => '1ea01bf8-32e4-4b16-9c38-56a605fe22c2',
   ]);
   $menu_link->save();
 
   $mid = $menu_link->getPluginId();
 
-  // Create link to Map and Directions page.
+  // Create Lịch Sử node page.
+  $node = Node::create(array(
+    'type' => 'page',
+    'title' => 'Lịch Sử',
+    'uid' => '1',
+    'status' => 1,
+    'path' => '/giao-xu/lich-su',
+  ));
+  $node->body->value = 'Lịch Sử';
+  $node->body->format = 'full_html';
+  $node->save();
+
+  // Create link to Giáo Xứ page.
   MenuLinkContent::create([
     'title'      => 'Lịch Sử',
     'link'       => ['uri' => 'internal:/node/1'],
@@ -106,504 +79,597 @@ function giaoxu() {
     'parent'     => $mid,
   ])->save();
 
-  // Create Hội Đồng Giáo Xứ node page.
+  // Create Tiểu Sử Cha Xứ node page.
   $node = Node::create(array(
     'type' => 'page',
-    'title' => 'Hội Đồng Giáo Xứ',
+    'title' => 'Tiểu Sử Cha Xứ',
     'uid' => '1',
     'status' => 1,
     'parent' => $mid,
-    'path' => '/about/' . _lavang_clean_alias('Hội Đồng Giáo Xứ'),
+    'path' => '/giao-xu/tieu-su-cha-xu',
   ));
-  $node->body->value = '<h3>SUNDAY MORNING BIBLE CLASSES &amp; SERVICE</h3>
-    <p>A wide variety of classes meet each week to welcome and nurture adults in their faith journey. &nbsp;Classes differ in size, format, and focus. &nbsp;Offerings may include textual, topical, ministry specific, or special needs studies. &nbsp;Some are age-specific while others are inter-generational. Many are on-ongoing throughout the year while special series are also provided.</p>
-    <p>&nbsp;</p>
-    <h3>WEEK AND EVENING BIBLE CLASSES &amp; SERVICE</h3>
-    <p>Daytime and evening classes meet for study and discussion throughout the year. &nbsp;A wide variety of opportunities are available for men and women as well as general adult groups. &nbsp;Wednesday evenings offer several choices including "Peak of the Week," short term presentations that inspire and inform.</p>';
+  $node->body->value = 'Tiểu Sử Cha Xứ';
   $node->body->format = 'full_html';
   $node->save();
 
-  // Create link to About page.
+  // Create link to Tiểu Sử Cha Xứ page.
   MenuLinkContent::create([
-    'title'      => 'Hội Đồng Giáo Xứ',
+    'title'      => 'Tiểu Sử Cha Xứ',
     'link'       => ['uri' => 'internal:/node/2'],
+    'menu_name'  => 'main',
+    'weight'     => 1,
+    'parent' => $mid,
+  ])->save();
+
+  // Create Hội Đồng Mục Vụ node page.
+  $node = Node::create(array(
+    'type' => 'page',
+    'title' => 'Hội Đồng Mục Vụ',
+    'uid' => '1',
+    'status' => 1,
+    'parent' => $mid,
+    'path' => '/giao-xu/hoi-dong-muc-vu',
+  ));
+  $node->body->value = 'Page under construction';
+  $node->body->format = 'full_html';
+  $node->save();
+
+  // Create link to Hội Đồng Mục Vụ page.
+  MenuLinkContent::create([
+    'title'      => 'Hội Đồng Mục Vụ',
+    'link'       => ['uri' => 'internal:/node/3'],
     'menu_name'  => 'main',
     'weight'     => 2,
     'parent' => $mid,
   ])->save();
 
+  // Create Chương Trình Mục Vụ node page.
+  $node = Node::create(array(
+    'type' => 'page',
+    'title' => 'Chương Trình Mục Vụ',
+    'uid' => '1',
+    'status' => 1,
+    'parent' => $mid,
+    'path' => '/giao-xu/chuong-trinh-muc-vu',
+  ));
+  $node->body->value = 'Page under construction';
+  $node->body->format = 'full_html';
+  $node->save();
+
+  // Create link to Chương Trình Mục Vụ page.
+  MenuLinkContent::create([
+    'title'      => 'Chương Trình Mục Vụ',
+    'link'       => ['uri' => 'internal:/node/4'],
+    'menu_name'  => 'main',
+    'weight'     => 3,
+    'parent' => $mid,
+  ])->save();
+
+  // Create Mẫu Đơn node page.
+  $node = Node::create(array(
+    'type' => 'page',
+    'title' => 'Mẫu Đơn',
+    'uid' => '1',
+    'status' => 1,
+    'parent' => $mid,
+    'path' => '/giao-xu/forms',
+  ));
+  $node->body->value = 'Page under construction';
+  $node->body->format = 'full_html';
+  $node->save();
+
+  // Create link to Mẫu Đơn page.
+  MenuLinkContent::create([
+    'title'      => 'Mẫu Đơn',
+    'link'       => ['uri' => 'internal:/node/5'],
+    'menu_name'  => 'main',
+    'weight'     => 4,
+    'parent' => $mid,
+  ])->save();
+
+  // Create Liên Lạc node page.
+  $node = Node::create(array(
+    'type' => 'page',
+    'title' => 'Liên Lạc',
+    'uid' => '1',
+    'status' => 1,
+    'parent' => $mid,
+    'path' => '/giao-xu/lien-lac',
+  ));
+  $node->body->value = 'Page under construction';
+  $node->body->format = 'full_html';
+  $node->save();
+
+  // Create link to Liên Lạc page.
+  MenuLinkContent::create([
+    'title'      => 'Liên Lạc',
+    'link'       => ['uri' => 'internal:/node/6'],
+    'menu_name'  => 'main',
+    'weight'     => 5,
+    'parent' => $mid,
+  ])->save();
+
 }
 
-function phungvu() {
+function _lavang_content_phung_vu($menu_weight) {
 
-   // Create Map and Directions node page.
+  // Create link to Phụng Vụ page.
+  $menu_link = MenuLinkContent::create([
+    'title'      => 'Phụng Vụ',
+    'link'       => ['uri' => 'internal:/phung-vu'],
+    'menu_name'  => 'main',
+    'weight'     => $menu_weight,
+    'expanded' => 1,
+  ]);
+  $menu_link->save();
+
+  $mid = $menu_link->getPluginId();
+
+  // Create Lịch Phụng Vụ node page.
   $node = Node::create(array(
     'type' => 'page',
     'title' => 'Lịch Phụng Vụ',
     'uid' => '1',
     'status' => 1,
-    'path' => '/phung-vu/' . _lavang_clean_alias('Lịch Phụng Vụ'),
+    'path' => '/phung-vu/lich-phung-vu',
   ));
-  $node->body->value = '<h3>Come Visit Us at minimal!</h3>
-    <p>Come find us just three right turns past the downtown circle then left into the big open parking lot. &nbsp;Look for the brick building and come on in!</p>
-    <p>If you want to share a map you could embed a custom map from google, mapquest, or bing. &nbsp;Whatever you decide just be sure to consider those who may come from any direction and might need different instructions. &nbsp;</p>
-    <p><iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1&amp;output=embed"></iframe></p><p><small><a href="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1" style="color:#0000FF;text-align:left">View Larger Map</a></small></p>';
+  $node->body->value = 'Page under construction.';
   $node->body->format = 'full_html';
   $node->save();
-
-    // Create link to About page.
-  $menu_link = MenuLinkContent::create([
-    'title'      => 'Phụng Vụ',
-    'link'       => ['uri' => 'internal:/node/3'],
-    'menu_name'  => 'main',
-    'weight'     => 1,
-    'expanded' => 1,
-    // 'uuid'       => '1ea01bf8-32e4-4b16-9c38-56a605fe22c2',
-  ]);
-  $menu_link->save();
-
-  $mid = $menu_link->getPluginId();
 
   // Create link to Phụng Vụ page.
   MenuLinkContent::create([
     'title'      => 'Lịch Phụng Vụ',
-    'link'       => ['uri' => 'internal:/node/3'],
-    'menu_name'  => 'main',
-    'weight'     => 0,
-    'parent'     => $mid,
-  ])->save();
-
-     // Create Map and Directions node page.
-  $node = Node::create(array(
-    'type' => 'page',
-    'title' => 'Lời Chúa Mỗi Ngày',
-    'uid' => '1',
-    'status' => 1,
-    'path' => '/phung-vu/' . _lavang_clean_alias('Lời Chúa Mỗi Ngày'),
-  ));
-  $node->body->value = '<h3>Come Visit Us at minimal!</h3>
-    <p>Come find us just three right turns past the downtown circle then left into the big open parking lot. &nbsp;Look for the brick building and come on in!</p>
-    <p>If you want to share a map you could embed a custom map from google, mapquest, or bing. &nbsp;Whatever you decide just be sure to consider those who may come from any direction and might need different instructions. &nbsp;</p>
-    <p><iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1&amp;output=embed"></iframe></p><p><small><a href="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1" style="color:#0000FF;text-align:left">View Larger Map</a></small></p>';
-  $node->body->format = 'full_html';
-  $node->save();
-
-    // Create link to Phụng Vụ page.
-  MenuLinkContent::create([
-    'title'      => 'Lời Chúa Mỗi Ngày',
-    'link'       => ['uri' => 'internal:/node/4'],
-    'menu_name'  => 'main',
-    'weight'     => 0,
-    'parent'     => $mid,
-  ])->save();
-
-}
-
-function hoidoan() {
-
-    // Create link to About page.
-  $menu_link = MenuLinkContent::create([
-    'title'      => 'Hội Đoàn',
-    'link'       => ['uri' => 'internal:/hoi-doan'],
-    'menu_name'  => 'main',
-    'weight'     => 2,
-    'expanded' => 1,
-    // 'uuid'       => '1ea01bf8-32e4-4b16-9c38-56a605fe22c2',
-  ]);
-  $menu_link->save();
-
-  $mid = $menu_link->getPluginId();
-
-
-   // Create Map and Directions node page.
-  $node = Node::create(array(
-    'type' => 'page',
-    'title' => 'Thiếu Nhi Thánh Thể',
-    'uid' => '1',
-    'status' => 1,
-    'path' => '/hoi-doan/' . _lavang_clean_alias('Thiếu Nhi Thánh Thể'),
-  ));
-  $node->body->value = '<h3>Come Visit Us at minimal!</h3>
-    <p>Come find us just three right turns past the downtown circle then left into the big open parking lot. &nbsp;Look for the brick building and come on in!</p>
-    <p>If you want to share a map you could embed a custom map from google, mapquest, or bing. &nbsp;Whatever you decide just be sure to consider those who may come from any direction and might need different instructions. &nbsp;</p>
-    <p><iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1&amp;output=embed"></iframe></p><p><small><a href="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1" style="color:#0000FF;text-align:left">View Larger Map</a></small></p>';
-  $node->body->format = 'full_html';
-  $node->save();
-
-  // Create link to Phụng Vụ page.
-  MenuLinkContent::create([
-    'title'      => 'Thiếu Nhi Thánh Thể',
-    'link'       => ['uri' => 'internal:/node/5'],
-    'menu_name'  => 'main',
-    'weight'     => 0,
-    'parent'     => $mid,
-  ])->save();
-
-     // Create Map and Directions node page.
-  $node = Node::create(array(
-    'type' => 'page',
-    'title' => 'Giới Trẻ',
-    'uid' => '1',
-    'status' => 1,
-    'path' => '/hoi-doan/' . _lavang_clean_alias('Giới Trẻ'),
-  ));
-  $node->body->value = '<h3>Come Visit Us at minimal!</h3>
-    <p>Come find us just three right turns past the downtown circle then left into the big open parking lot. &nbsp;Look for the brick building and come on in!</p>
-    <p>If you want to share a map you could embed a custom map from google, mapquest, or bing. &nbsp;Whatever you decide just be sure to consider those who may come from any direction and might need different instructions. &nbsp;</p>
-    <p><iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1&amp;output=embed"></iframe></p><p><small><a href="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1" style="color:#0000FF;text-align:left">View Larger Map</a></small></p>';
-  $node->body->format = 'full_html';
-  $node->save();
-
-    // Create link to Phụng Vụ page.
-  MenuLinkContent::create([
-    'title'      => 'Giới Trẻ',
-    'link'       => ['uri' => 'internal:/node/6'],
-    'menu_name'  => 'main',
-    'weight'     => 0,
-    'parent'     => $mid,
-  ])->save();
-
-     // Create Map and Directions node page.
-  $node = Node::create(array(
-    'type' => 'page',
-    'title' => 'Ca Đoàn Cecilia',
-    'uid' => '1',
-    'status' => 1,
-    'path' => '/hoi-doan/' . _lavang_clean_alias('Ca Đoàn Cecilia'),
-  ));
-  $node->body->value = '<h3>Ca Đoàn Cecilia</h3>
-    <p>Come find us just three right turns past the downtown circle then left into the big open parking lot. &nbsp;Look for the brick building and come on in!</p>
-    <p>If you want to share a map you could embed a custom map from google, mapquest, or bing. &nbsp;Whatever you decide just be sure to consider those who may come from any direction and might need different instructions. &nbsp;</p>
-    <p><iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1&amp;output=embed"></iframe></p><p><small><a href="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1" style="color:#0000FF;text-align:left">View Larger Map</a></small></p>';
-  $node->body->format = 'full_html';
-  $node->save();
-
-    // Create link to Phụng Vụ page.
-  MenuLinkContent::create([
-    'title'      => 'Ca Đoàn Cecilia',
     'link'       => ['uri' => 'internal:/node/7'],
     'menu_name'  => 'main',
     'weight'     => 0,
     'parent'     => $mid,
   ])->save();
 
-       // Create Map and Directions node page.
+  // Create node page.
   $node = Node::create(array(
     'type' => 'page',
-    'title' => 'Thăng Tiến Hôn Nhân Gia Đình',
+    'title' => 'Lời Chúa Mỗi Ngày',
     'uid' => '1',
     'status' => 1,
-    'path' => '/hoi-doan/' . _lavang_clean_alias('Thăng Tiến Hôn Nhân Gia Đình'),
+    'path' => '/phung-vu/loi-chua-moi-ngay',
   ));
-  $node->body->value = '<h3>Thăng Tiến Hôn Nhân Gia Đình</h3>
-    <p>Come find us just three right turns past the downtown circle then left into the big open parking lot. &nbsp;Look for the brick building and come on in!</p>
-    <p>If you want to share a map you could embed a custom map from google, mapquest, or bing. &nbsp;Whatever you decide just be sure to consider those who may come from any direction and might need different instructions. &nbsp;</p>
-    <p><iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1&amp;output=embed"></iframe></p><p><small><a href="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1" style="color:#0000FF;text-align:left">View Larger Map</a></small></p>';
-  $node->body->format = 'full_html';
-  $node->save();
-
-    // Create link to Phụng Vụ page.
-  MenuLinkContent::create([
-    'title'      => 'Thăng Tiến Hôn Nhân Gia Đình',
-    'link'       => ['uri' => 'internal:/node/8'],
-    'menu_name'  => 'main',
-    'weight'     => 0,
-    'parent'     => $mid,
-  ])->save();
-
-         // Create Map and Directions node page.
-  $node = Node::create(array(
-    'type' => 'page',
-    'title' => 'Hiệp Sĩ Đoàn Knights of Columbus',
-    'uid' => '1',
-    'status' => 1,
-    'path' => '/hoi-doan/' . _lavang_clean_alias('Hiệp Sĩ Đoàn Knights of Columbus'),
-  ));
-  $node->body->value = '<h3>Hiệp Sĩ Đoàn Knights of Columbus</h3>
-    <p>Come find us just three right turns past the downtown circle then left into the big open parking lot. &nbsp;Look for the brick building and come on in!</p>
-    <p>If you want to share a map you could embed a custom map from google, mapquest, or bing. &nbsp;Whatever you decide just be sure to consider those who may come from any direction and might need different instructions. &nbsp;</p>
-    <p><iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1&amp;output=embed"></iframe></p><p><small><a href="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1" style="color:#0000FF;text-align:left">View Larger Map</a></small></p>';
-  $node->body->format = 'full_html';
-  $node->save();
-
-    // Create link to Phụng Vụ page.
-  MenuLinkContent::create([
-    'title'      => 'Hiệp Sĩ Đoàn Knights of Columbus',
-    'link'       => ['uri' => 'internal:/node/9'],
-    'menu_name'  => 'main',
-    'weight'     => 0,
-    'parent'     => $mid,
-  ])->save();
-
-}
-
-function truyenthong() {
-      // Create link to About page.
-  $menu_link = MenuLinkContent::create([
-    'title'      => 'Truyền Thông',
-    'link'       => ['uri' => 'internal:/truyen-thong'],
-    'menu_name'  => 'main',
-    'weight'     => 4,
-    'expanded' => 1,
-    // 'uuid'       => '1ea01bf8-32e4-4b16-9c38-56a605fe22c2',
-  ]);
-  $menu_link->save();
-
-  $mid = $menu_link->getPluginId();
-
-
-   // Create Map and Directions node page.
-  $node = Node::create(array(
-    'type' => 'page',
-    'title' => 'Nguồn Sống',
-    'uid' => '1',
-    'status' => 1,
-    'path' => '/truyen-thong/' . _lavang_clean_alias('Nguồn Sống'),
-  ));
-  $node->body->value = '<h3>Come Visit Us at minimal!</h3>
-    <p>Come find us just three right turns past the downtown circle then left into the big open parking lot. &nbsp;Look for the brick building and come on in!</p>
-    <p>If you want to share a map you could embed a custom map from google, mapquest, or bing. &nbsp;Whatever you decide just be sure to consider those who may come from any direction and might need different instructions. &nbsp;</p>
-    <p><iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1&amp;output=embed"></iframe></p><p><small><a href="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1" style="color:#0000FF;text-align:left">View Larger Map</a></small></p>';
+  $node->body->value = '';
   $node->body->format = 'full_html';
   $node->save();
 
   // Create link to Phụng Vụ page.
   MenuLinkContent::create([
-    'title'      => 'Nguồn Sống',
+    'title'      => 'Lời Chúa Mỗi Ngày',
+    'link'       => ['uri' => 'internal:/node/8'],
+    'menu_name'  => 'main',
+    'weight'     => 1,
+    'parent'     => $mid,
+  ])->save();
+
+  // Create node page.
+  $node = Node::create(array(
+    'type' => 'page',
+    'title' => 'Lời Nguyện Chung',
+    'uid' => '1',
+    'status' => 1,
+    'path' => '/phung-vu/loi-nguyen-chung',
+  ));
+  $node->body->value = '';
+  $node->body->format = 'full_html';
+  $node->save();
+
+  // Create link to Phụng Vụ page.
+  MenuLinkContent::create([
+    'title'      => 'Lời Nguyện Chung',
+    'link'       => ['uri' => 'internal:/node/9'],
+    'menu_name'  => 'main',
+    'weight'     => 2,
+    'parent'     => $mid,
+  ])->save();
+
+  // Create node page.
+  $node = Node::create(array(
+    'type' => 'page',
+    'title' => 'Suy Niệm',
+    'uid' => '1',
+    'status' => 1,
+    'path' => '/phung-vu/suy-niem',
+  ));
+  $node->body->value = '';
+  $node->body->format = 'full_html';
+  $node->save();
+
+  // Create link to Phụng Vụ page.
+  MenuLinkContent::create([
+    'title'      => 'Suy Niệm',
     'link'       => ['uri' => 'internal:/node/10'],
     'menu_name'  => 'main',
-    'weight'     => 0,
+    'weight'     => 3,
     'parent'     => $mid,
   ])->save();
 
-     // Create Map and Directions node page.
+  // Create node page.
   $node = Node::create(array(
     'type' => 'page',
-    'title' => 'Hình Ảnh',
+    'title' => 'Hạnh Các Thánh',
     'uid' => '1',
     'status' => 1,
-    'path' => '/hoi-doan/' . _lavang_clean_alias('Hình Ảnh'),
+    'path' => '/phung-vu/hanh-cac-thanh',
   ));
-  $node->body->value = '<h3>Come Visit Us at minimal!</h3>
-    <p>Come find us just three right turns past the downtown circle then left into the big open parking lot. &nbsp;Look for the brick building and come on in!</p>
-    <p>If you want to share a map you could embed a custom map from google, mapquest, or bing. &nbsp;Whatever you decide just be sure to consider those who may come from any direction and might need different instructions. &nbsp;</p>
-    <p><iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1&amp;output=embed"></iframe></p><p><small><a href="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1" style="color:#0000FF;text-align:left">View Larger Map</a></small></p>';
+  $node->body->value = '';
   $node->body->format = 'full_html';
   $node->save();
 
-    // Create link to Phụng Vụ page.
+  // Create link to Phụng Vụ page.
   MenuLinkContent::create([
-    'title'      => 'Hình Ảnh',
+    'title'      => 'Hạnh Các Thánh',
     'link'       => ['uri' => 'internal:/node/11'],
     'menu_name'  => 'main',
-    'weight'     => 0,
+    'weight'     => 4,
     'parent'     => $mid,
   ])->save();
+}
 
-     // Create Map and Directions node page.
+function _lavang_content_hoi_doan($menu_weight) {
+
+  // Create link to Hội Đoàn page.
+  $menu_link = MenuLinkContent::create([
+    'title'      => 'Hội Đoàn',
+    'link'       => ['uri' => 'internal:/hoi-doan'],
+    'menu_name'  => 'main',
+    'weight'     => $menu_weight,
+    'expanded' => 1,
+  ]);
+  $menu_link->save();
+
+  $mid = $menu_link->getPluginId();
+
+  // Create node page.
   $node = Node::create(array(
     'type' => 'page',
-    'title' => 'Video',
+    'title' => 'Thiếu Nhi Thánh Thể',
     'uid' => '1',
     'status' => 1,
-    'path' => '/hoi-doan/' . _lavang_clean_alias('Video'),
+    'path' => '/hoi-doan/thieu-nhi-thanh-the',
   ));
-  $node->body->value = '<h3>Ca Đoàn Cecilia</h3>
-    <p>Come find us just three right turns past the downtown circle then left into the big open parking lot. &nbsp;Look for the brick building and come on in!</p>
-    <p>If you want to share a map you could embed a custom map from google, mapquest, or bing. &nbsp;Whatever you decide just be sure to consider those who may come from any direction and might need different instructions. &nbsp;</p>
-    <p><iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1&amp;output=embed"></iframe></p><p><small><a href="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1" style="color:#0000FF;text-align:left">View Larger Map</a></small></p>';
+  $node->body->value = '';
   $node->body->format = 'full_html';
   $node->save();
 
-    // Create link to Phụng Vụ page.
+  // Create link to Hội Đoàn page.
   MenuLinkContent::create([
-    'title'      => 'Video',
+    'title'      => 'Thiếu Nhi Thánh Thể',
     'link'       => ['uri' => 'internal:/node/12'],
     'menu_name'  => 'main',
     'weight'     => 0,
     'parent'     => $mid,
   ])->save();
 
-       // Create Map and Directions node page.
+  // Create node page.
   $node = Node::create(array(
     'type' => 'page',
-    'title' => 'Nối Kết',
+    'title' => 'Giới Trẻ',
     'uid' => '1',
     'status' => 1,
-    'path' => '/hoi-doan/' . _lavang_clean_alias('Nối Kết'),
+    'path' => '/hoi-doan/gioi-tre',
   ));
-  $node->body->value = '<h3>Ca Đoàn Cecilia</h3>
-    <p>Come find us just three right turns past the downtown circle then left into the big open parking lot. &nbsp;Look for the brick building and come on in!</p>
-    <p>If you want to share a map you could embed a custom map from google, mapquest, or bing. &nbsp;Whatever you decide just be sure to consider those who may come from any direction and might need different instructions. &nbsp;</p>
-    <p><iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1&amp;output=embed"></iframe></p><p><small><a href="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1" style="color:#0000FF;text-align:left">View Larger Map</a></small></p>';
+  $node->body->value = '';
   $node->body->format = 'full_html';
   $node->save();
 
-    // Create link to Phụng Vụ page.
+  // Create link to Hội Đoàn page.
   MenuLinkContent::create([
-    'title'      => 'Nối Kết',
+    'title'      => 'Giới Trẻ',
     'link'       => ['uri' => 'internal:/node/13'],
     'menu_name'  => 'main',
-    'weight'     => 0,
+    'weight'     => 1,
     'parent'     => $mid,
   ])->save();
 
-}
-
-function truonghoc() {
-    // Create Map and Directions node page.
+  // Create node page.
   $node = Node::create(array(
     'type' => 'page',
-    'title' => 'Truong Hoc',
+    'title' => 'Ca Đoàn Cecilia',
     'uid' => '1',
     'status' => 1,
-    'path' => '/truong-hoc/' . _lavang_clean_alias('Truong Hoc'),
+    'path' => '/hoi-doan/ca-doan',
   ));
-  $node->body->value = '<h3>Ca Đoàn Cecilia</h3>
-    <p>Come find us just three right turns past the downtown circle then left into the big open parking lot. &nbsp;Look for the brick building and come on in!</p>
-    <p>If you want to share a map you could embed a custom map from google, mapquest, or bing. &nbsp;Whatever you decide just be sure to consider those who may come from any direction and might need different instructions. &nbsp;</p>
-    <p><iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1&amp;output=embed"></iframe></p><p><small><a href="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1" style="color:#0000FF;text-align:left">View Larger Map</a></small></p>';
+  $node->body->value = '';
   $node->body->format = 'full_html';
   $node->save();
 
-    // Create link to About page.
-  $menu_link = MenuLinkContent::create([
-    'title'      => 'Truong hoc',
+  // Create link to Hội Đoàn page.
+  MenuLinkContent::create([
+    'title'      => 'Ca Đoàn Cecilia',
     'link'       => ['uri' => 'internal:/node/14'],
     'menu_name'  => 'main',
-    'weight'     => 5,
-    'expanded' => 1,
-    // 'uuid'       => '1ea01bf8-32e4-4b16-9c38-56a605fe22c2',
-  ]);
-  $menu_link->save();
-
-  $mid = $menu_link->getPluginId();
-
-    // Create Map and Directions node page.
-  $node = Node::create(array(
-    'type' => 'page',
-    'title' => 'Giáo Lý',
-    'uid' => '1',
-    'status' => 1,
-    'path' => '/truong-hoc/' . _lavang_clean_alias('Giáo Lý'),
-  ));
-  $node->body->value = '<h3>Giáo Lý</h3>
-    <p>Come find us just three right turns past the downtown circle then left into the big open parking lot. &nbsp;Look for the brick building and come on in!</p>
-    <p>If you want to share a map you could embed a custom map from google, mapquest, or bing. &nbsp;Whatever you decide just be sure to consider those who may come from any direction and might need different instructions. &nbsp;</p>
-    <p><iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1&amp;output=embed"></iframe></p><p><small><a href="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1" style="color:#0000FF;text-align:left">View Larger Map</a></small></p>';
-  $node->body->format = 'full_html';
-  $node->save();
-
-    // Create link to Phụng Vụ page.
-  MenuLinkContent::create([
-    'title'      => 'Giáo Lý',
-    'link'       => ['uri' => 'internal:/node/15'],
-    'menu_name'  => 'main',
-    'weight'     => 0,
+    'weight'     => 2,
     'parent'     => $mid,
   ])->save();
 
-      // Create Map and Directions node page.
+  // Create node page.
   $node = Node::create(array(
     'type' => 'page',
-    'title' => 'Việt Ngữ',
+    'title' => 'Thăng Tiến Hôn Nhân',
     'uid' => '1',
     'status' => 1,
-    'path' => '/truong-hoc/' . _lavang_clean_alias('Việt Ngữ'),
+    'path' => '/hoi-doan/thang-tien-hon-nhan',
   ));
-  $node->body->value = '<h3>•Việt Ngữ</h3>
-    <p>Come find us just three right turns past the downtown circle then left into the big open parking lot. &nbsp;Look for the brick building and come on in!</p>
-    <p>If you want to share a map you could embed a custom map from google, mapquest, or bing. &nbsp;Whatever you decide just be sure to consider those who may come from any direction and might need different instructions. &nbsp;</p>
-    <p><iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1&amp;output=embed"></iframe></p><p><small><a href="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1" style="color:#0000FF;text-align:left">View Larger Map</a></small></p>';
+  $node->body->value = '';
   $node->body->format = 'full_html';
   $node->save();
 
-    // Create link to Phụng Vụ page.
+  // Create link to Hội Đoàn page.
   MenuLinkContent::create([
-    'title'      => 'Việt Ngữ',
+    'title'      => 'Thăng Tiến Hôn Nhân',
+    'link'       => ['uri' => 'internal:/node/15'],
+    'menu_name'  => 'main',
+    'weight'     => 3,
+    'parent'     => $mid,
+  ])->save();
+
+  // Create node page.
+  $node = Node::create(array(
+    'type' => 'page',
+    'title' => 'Hiệp Sĩ Đoàn',
+    'uid' => '1',
+    'status' => 1,
+    'path' => '/hoi-doan/hiep-si-doan',
+  ));
+  $node->body->value = '';
+  $node->body->format = 'full_html';
+  $node->save();
+
+  // Create link to Hội Đoàn page.
+  MenuLinkContent::create([
+    'title'      => 'Hiệp Sĩ Đoàn',
     'link'       => ['uri' => 'internal:/node/16'],
     'menu_name'  => 'main',
-    'weight'     => 0,
+    'weight'     => 4,
+    'parent'     => $mid,
+  ])->save();
+
+  // Create node page.
+  $node = Node::create(array(
+    'type' => 'page',
+    'title' => 'Hội Cao Niên',
+    'uid' => '1',
+    'status' => 1,
+    'path' => '/hoi-doan/hoi-cao-nien',
+  ));
+  $node->body->value = '';
+  $node->body->format = 'full_html';
+  $node->save();
+
+  // Create link to Hội Đoàn page.
+  MenuLinkContent::create([
+    'title'      => 'Hiệp Sĩ Đoàn',
+    'link'       => ['uri' => 'internal:/node/17'],
+    'menu_name'  => 'main',
+    'weight'     => 5,
+    'parent'     => $mid,
+  ])->save();
+
+  // Create node page.
+  $node = Node::create(array(
+    'type' => 'page',
+    'title' => 'Hội Hiền Mẫu',
+    'uid' => '1',
+    'status' => 1,
+    'path' => '/hoi-doan/hoi-hien-mau',
+  ));
+  $node->body->value = '';
+  $node->body->format = 'full_html';
+  $node->save();
+
+  // Create link to Hội Đoàn page.
+  MenuLinkContent::create([
+    'title'      => 'Hội Hiền Mẫu',
+    'link'       => ['uri' => 'internal:/node/18'],
+    'menu_name'  => 'main',
+    'weight'     => 6,
     'parent'     => $mid,
   ])->save();
 
 }
 
-function lienlac() {
-    // Create Map and Directions node page.
-  $node = Node::create(array(
-    'type' => 'page',
-    'title' => 'Liên Lạc',
-    'uid' => '1',
-    'status' => 1,
-    'path' => '/lien-lac/' . _lavang_clean_alias('Liên Lạc'),
-  ));
-  $node->body->value = '<h3>Liên Lạc</h3>
-    <p>Come find us just three right turns past the downtown circle then left into the big open parking lot. &nbsp;Look for the brick building and come on in!</p>
-    <p>If you want to share a map you could embed a custom map from google, mapquest, or bing. &nbsp;Whatever you decide just be sure to consider those who may come from any direction and might need different instructions. &nbsp;</p>
-    <p><iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1&amp;output=embed"></iframe></p><p><small><a href="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1" style="color:#0000FF;text-align:left">View Larger Map</a></small></p>';
-  $node->body->format = 'full_html';
-  $node->save();
+function _lavang_content_thong_tin($menu_weight) {
 
-    // Create link to About page.
-  $menu_link = MenuLinkContent::create([
-    'title'      => 'Liên Lạc',
-    'link'       => ['uri' => 'internal:/node/17'],
-    'menu_name'  => 'main',
-    'weight'     => 6,
-    'expanded' => 1,
-    // 'uuid'       => '1ea01bf8-32e4-4b16-9c38-56a605fe22c2',
-  ]);
-  $menu_link->save();
+    // Create link to Thông Tin page.
+    $menu_link = MenuLinkContent::create([
+      'title'      => 'Thông Tin',
+      'link'       => ['uri' => 'internal:/thong-tin'],
+      'menu_name'  => 'main',
+      'weight'     => $menu_weight,
+      'expanded' => 1,
+    ]);
+    $menu_link->save();
 
-  $mid = $menu_link->getPluginId();
+    $mid = $menu_link->getPluginId();
 
-    // Create Map and Directions node page.
-  $node = Node::create(array(
-    'type' => 'page',
-    'title' => 'Mẫu Đơn',
-    'uid' => '1',
-    'status' => 1,
-    'path' => '/lien-lac/' . _lavang_clean_alias('Mẫu Đơn'),
-  ));
-  $node->body->value = '<h3>Giáo Lý</h3>
-    <p>Come find us just three right turns past the downtown circle then left into the big open parking lot. &nbsp;Look for the brick building and come on in!</p>
-    <p>If you want to share a map you could embed a custom map from google, mapquest, or bing. &nbsp;Whatever you decide just be sure to consider those who may come from any direction and might need different instructions. &nbsp;</p>
-    <p><iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1&amp;output=embed"></iframe></p><p><small><a href="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1" style="color:#0000FF;text-align:left">View Larger Map</a></small></p>';
-  $node->body->format = 'full_html';
-  $node->save();
+    // Create node page.
+    $node = Node::create(array(
+      'type' => 'page',
+      'title' => 'Sinh Hoạt Giáo Xứ',
+      'uid' => '1',
+      'status' => 1,
+      'path' => '/thong-tin/sinh-hoat-giao-xu',
+    ));
+    $node->body->value = '';
+    $node->body->format = 'full_html';
+    $node->save();
 
-    // Create link to Phụng Vụ page.
-  MenuLinkContent::create([
-    'title'      => 'Mẫu Đơn',
-    'link'       => ['uri' => 'internal:/node/18'],
-    'menu_name'  => 'main',
-    'weight'     => 0,
-    'parent'     => $mid,
-  ])->save();
+    // Create link to Thông Tin page.
+    MenuLinkContent::create([
+      'title' => 'Sinh Hoạt Giáo Xứ',
+      'link'       => ['uri' => 'internal:/node/19'],
+      'menu_name'  => 'main',
+      'weight'     => 0,
+      'parent'     => $mid,
+    ])->save();
 
-      // Create Map and Directions node page.
-  $node = Node::create(array(
-    'type' => 'page',
-    'title' => 'another page',
-    'uid' => '1',
-    'status' => 1,
-    'path' => '/lien-lac/' . _lavang_clean_alias('another page'),
-  ));
-  $node->body->value = '<h3>•Việt Ngữ</h3>
-    <p>Come find us just three right turns past the downtown circle then left into the big open parking lot. &nbsp;Look for the brick building and come on in!</p>
-    <p>If you want to share a map you could embed a custom map from google, mapquest, or bing. &nbsp;Whatever you decide just be sure to consider those who may come from any direction and might need different instructions. &nbsp;</p>
-    <p><iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1&amp;output=embed"></iframe></p><p><small><a href="http://www.google.com/maps?f=d&amp;source=embed&amp;saddr=&amp;daddr=Church+Street,+Nashville,+TN&amp;hl=en&amp;geocode=&amp;mra=ls&amp;sll=37.0625,-95.677068&amp;sspn=38.365962,79.013672&amp;ie=UTF8&amp;ll=37.020098,-95.625&amp;spn=47.972233,96.679688&amp;t=m&amp;vpsrc=0&amp;iwloc=ddw1" style="color:#0000FF;text-align:left">View Larger Map</a></small></p>';
-  $node->body->format = 'full_html';
-  $node->save();
+    // Create node page.
+    $node = Node::create(array(
+      'type' => 'page',
+      'title' => 'Nguồn Sống',
+      'uid' => '1',
+      'status' => 1,
+      'path' => '/thong-tin/nguon-song',
+    ));
+    $node->body->value = '';
+    $node->body->format = 'full_html';
+    $node->save();
 
-    // Create link to Phụng Vụ page.
-  MenuLinkContent::create([
-    'title'      => 'another page',
-    'link'       => ['uri' => 'internal:/node/19'],
-    'menu_name'  => 'main',
-    'weight'     => 0,
-    'parent'     => $mid,
-  ])->save();
+    // Create link to Thông Tin page.
+    MenuLinkContent::create([
+      'title'      => 'Nguồn Sống',
+      'link'       => ['uri' => 'internal:/node/20'],
+      'menu_name'  => 'main',
+      'weight'     => 1,
+      'parent'     => $mid,
+    ])->save();
+
+    // Create node page.
+    $node = Node::create(array(
+      'type' => 'page',
+      'title' => 'Hình Ảnh',
+      'uid' => '1',
+      'status' => 1,
+      'path' => '/thong-tin/hinh-anh',
+    ));
+    $node->body->value = '';
+    $node->body->format = 'full_html';
+    $node->save();
+
+    // Create link to Thông Tin page.
+    MenuLinkContent::create([
+      'title'      => 'Hình Ảnh',
+      'link'       => ['uri' => 'internal:/node/21'],
+      'menu_name'  => 'main',
+      'weight'     => 2,
+      'parent'     => $mid,
+    ])->save();
+
+    // Create node page.
+    $node = Node::create(array(
+      'type' => 'page',
+      'title' => 'Video',
+      'uid' => '1',
+      'status' => 1,
+      'path' => '/thong-tin/video',
+    ));
+    $node->body->value = '';
+    $node->body->format = 'full_html';
+    $node->save();
+
+    // Create link to Thông Tin page.
+    MenuLinkContent::create([
+      'title'      => 'Video',
+      'link'       => ['uri' => 'internal:/node/22'],
+      'menu_name'  => 'main',
+      'weight'     => 3,
+      'parent'     => $mid,
+    ])->save();
+
+    // Create node page.
+    $node = Node::create(array(
+      'type' => 'page',
+      'title' => 'Nối Kết',
+      'uid' => '1',
+      'status' => 1,
+      'path' => '/thong-tin/noi-ket',
+    ));
+    $node->body->value = '';
+    $node->body->format = 'full_html';
+    $node->save();
+
+    // Create link to Hội Đoàn page.
+    MenuLinkContent::create([
+      'title'      => 'Nối Kết',
+      'link'       => ['uri' => 'internal:/node/23'],
+      'menu_name'  => 'main',
+      'weight'     => 4,
+      'parent'     => $mid,
+    ])->save();
+
+}
+
+function _lavang_content_truong_hoc($menu_weight) {
+
+      // Create link to Trường Học page.
+      $menu_link = MenuLinkContent::create([
+        'title'      => 'Trường Học',
+        'link'       => ['uri' => 'internal:/truong-hoc'],
+        'menu_name'  => 'main',
+        'weight'     => $menu_weight,
+        'expanded' => 1,
+      ]);
+      $menu_link->save();
+
+      $mid = $menu_link->getPluginId();
+
+      // Create node page.
+      $node = Node::create(array(
+        'type' => 'page',
+        'title' => 'Ban Điều Hành',
+        'uid' => '1',
+        'status' => 1,
+        'path' => '/truong-hoc/ban-dieu-hanh',
+      ));
+      $node->body->value = '';
+      $node->body->format = 'full_html';
+      $node->save();
+
+      // Create link to Trường Học page.
+      MenuLinkContent::create([
+        'title' => 'Ban Điều Hành',
+        'link'       => ['uri' => 'internal:/node/24'],
+        'menu_name'  => 'main',
+        'weight'     => 0,
+        'parent'     => $mid,
+      ])->save();
+
+      // Create node page.
+      $node = Node::create(array(
+        'type' => 'page',
+        'title' => 'Giáo Lý',
+        'uid' => '1',
+        'status' => 1,
+        'path' => '/truong-hoc/giao-ly',
+      ));
+      $node->body->value = '';
+      $node->body->format = 'full_html';
+      $node->save();
+
+      // Create link to Trường Học page.
+      MenuLinkContent::create([
+        'title'      => 'Giáo Lý',
+        'link'       => ['uri' => 'internal:/node/25'],
+        'menu_name'  => 'main',
+        'weight'     => 1,
+        'parent'     => $mid,
+      ])->save();
+
+      // Create node page.
+      $node = Node::create(array(
+        'type' => 'page',
+        'title' => 'Việt Ngữ',
+        'uid' => '1',
+        'status' => 1,
+        'path' => '/truong-hoc/viet-ngu',
+      ));
+      $node->body->value = '';
+      $node->body->format = 'full_html';
+      $node->save();
+
+      // Create link to Trường Học page.
+      MenuLinkContent::create([
+        'title'      => 'Việt Ngữ',
+        'link'       => ['uri' => 'internal:/node/26'],
+        'menu_name'  => 'main',
+        'weight'     => 2,
+        'parent'     => $mid,
+      ])->save();
 
 }

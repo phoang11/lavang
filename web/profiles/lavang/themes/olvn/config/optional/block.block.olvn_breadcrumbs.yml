@@ -5,6 +5,8 @@ dependencies:
     - system
   theme:
     - olvn
+_core:
+  default_config_hash: _y2FZ2KqLQdmC_XxQ9OsTD9s43vvr6J-696atKFm_A0
 id: olvn_breadcrumbs
 theme: olvn
 region: header

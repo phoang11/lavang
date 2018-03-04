@@ -10,7 +10,6 @@ dependencies:
   - breakpoint
   - ckeditor
   - config
-  - comment
   - contextual
   - menu_link_content
   - datetime
@@ -26,15 +25,12 @@ dependencies:
   - dynamic_page_cache
   - big_pipe
   - taxonomy
-  - dblog
-  - shortcut
   - toolbar
   - field_ui
   - file
-  - rdf
   - views
   - views_ui
   - automated_cron
 themes:
-  - bartik
+  - olvn
   - seven
