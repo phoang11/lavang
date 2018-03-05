@@ -4,13 +4,11 @@ dependencies:
   module:
     - system
   theme:
-    - olvn
-_core:
-  default_config_hash: _y2FZ2KqLQdmC_XxQ9OsTD9s43vvr6J-696atKFm_A0
-id: olvn_breadcrumbs
-theme: olvn
-region: header
-weight: -100
+    - lavang_theme
+id: lavang_theme_breadcrumbs
+theme: lavang_theme
+region: breadcrumb
+weight: -3
 provider: null
 plugin: system_breadcrumb_block
 settings:

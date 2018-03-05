@@ -6,11 +6,11 @@ dependencies:
   module:
     - system
   theme:
-    - olvn
-id: olvn_main_menu
-theme: olvn
-region: navigation_collapsible
-weight: 10
+    - lavang_theme
+id: lavang_theme_main_menu
+theme: lavang_theme
+region: primary_menu
+weight: -3
 provider: null
 plugin: 'system_menu_block:main'
 settings:

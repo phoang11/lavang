@@ -4,11 +4,11 @@ dependencies:
   module:
     - system
   theme:
-    - olvn
-id: olvn_messages
-theme: olvn
-region: header
-weight: -50
+    - lavang_theme
+id: lavang_theme_messages
+theme: lavang_theme
+region: content
+weight: -3
 provider: null
 plugin: system_messages_block
 settings:

@@ -5,18 +5,14 @@ version: 1.0
 core: 8.x
 dependencies:
   - node
-  - history
   - block
   - breakpoint
   - ckeditor
   - config
-  - contextual
   - menu_link_content
   - datetime
   - block_content
-  - quickedit
   - editor
-  - help
   - image
   - menu_ui
   - options
@@ -25,12 +21,11 @@ dependencies:
   - dynamic_page_cache
   - big_pipe
   - taxonomy
-  - toolbar
-  - field_ui
+  - field
   - file
   - views
-  - views_ui
   - automated_cron
+  - toolbar
 themes:
-  - olvn
+  - lavang_theme
   - seven

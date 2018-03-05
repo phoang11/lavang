@@ -4,11 +4,11 @@ dependencies:
   module:
     - system
   theme:
-    - olvn
-id: olvn_branding
-theme: olvn
-region: navigation
-weight: 0
+    - lavang_theme
+id: lavang_theme_branding
+theme: lavang_theme
+region: header
+weight: 2
 provider: null
 plugin: system_branding_block
 settings:

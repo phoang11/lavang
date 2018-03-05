@@ -2,11 +2,11 @@ langcode: en
 status: true
 dependencies:
   theme:
-    - olvn
-id: olvn_local_tasks
-theme: olvn
-region: header
-weight: 10
+    - lavang_theme
+id: lavang_theme_local_tasks
+theme: lavang_theme
+region: content
+weight: 0
 provider: null
 plugin: local_tasks_block
 settings:

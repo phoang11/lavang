@@ -2,11 +2,11 @@ langcode: en
 status: true
 dependencies:
   theme:
-    - olvn
-id: olvn_local_actions
-theme: olvn
-region: header
-weight: 20
+    - lavang_theme
+id: lavang_theme_local_actions
+theme: lavang_theme
+region: content
+weight: -2
 provider: null
 plugin: local_actions_block
 settings:

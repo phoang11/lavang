@@ -2,11 +2,11 @@ langcode: en
 status: true
 dependencies:
   theme:
-    - olvn
-id: olvn_page_title
-theme: olvn
-region: header
-weight: 0
+    - lavang_theme
+id: lavang_theme_page_title
+theme: lavang_theme
+region: content
+weight: -1
 provider: null
 plugin: page_title_block
 settings:
