@@ -1,0 +1,138 @@
+{#
+/**
+ * @file
+ * USWDS theme implementation to display front page.
+ */
+#}
+<header class="{{ header_classes }}" id="header" role="banner">
+
+  {% if header_basic %}
+  <div class="usa-nav-container">
+  {% endif %}
+
+  <div class="usa-navbar">
+    <button class="usa-menu-btn">{{ 'Menu'|t }}</button>
+    {{ page.header }}
+  </div>
+
+  <div class="usa-overlay"></div>
+  <div class="usa-nav" role="navigation">
+    <div class="usa-nav-inner">
+
+      <button class="usa-nav-close">
+        <img src="{{ active_theme_path }}/assets/img/close.svg" alt="close" />
+      </button>
+
+      {% if page.mobile_menu %}
+      <div class="usa-nav-mobile">
+        {{ page.mobile_menu }}
+      </div>
+      {% endif %}
+
+      {% if page.mobile_menu %}
+      <div class="usa-nav-desktop">
+      {% endif %}
+
+      {% if page.primary_menu %}
+      {{ page.primary_menu }}
+      {% endif %}
+
+      {% if page.secondary_menu %}
+      {{ page.secondary_menu }}
+      {% endif %}
+
+      {% if page.mobile_menu %}
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+
+  {% if header_basic %}
+  </div>
+  {% endif %}
+
+</header>
+
+<section class="usa-section uswds-middle-section">
+
+  <div class="usa-grid">
+    <div class="usa-width-two-thirds">
+      <img src="http://via.placeholder.com/645x350">
+    </div>
+
+    <div class="usa-width-one-third">
+      {# <a id="main-content" tabindex="-1"></a> #}
+
+      <h3>Thanh Le Trong Tuan</h3>
+      <img src="http://via.placeholder.com/495x310">
+    </div>
+  </div>
+
+</section>
+
+<section class="usa-section uswds-middle-section">
+  <div class="usa-grid">
+    <h3>Y Nguyen Duc DTC Francis  Thang 3</h3>
+    <img src="http://via.placeholder.com/950x150">
+  </div>
+</section>
+
+<section class="usa-section uswds-middle-section">
+
+  <div class="usa-grid">
+
+    <div class="usa-width-one-half">
+      <h3>Thong Bao</h3>
+      <img src="http://via.placeholder.com/495x250">
+    </div>
+
+    <div class="usa-width-one-half">
+      <h3>One Third</h3>
+      <img src="http://via.placeholder.com/495x250">
+    </div>
+
+   {#  <div class="usa-width-one-third">
+      <h3>One Third</h3>
+      <img src="http://via.placeholder.com/295x200">
+    </div> #}
+
+  </div>
+
+</section>
+
+
+
+<footer class="{{ footer_classes }}" role="contentinfo">
+  <div class="usa-grid usa-footer-return-to-top">
+    <a href="#">Return to top</a>
+  </div>
+
+  {% if display_footer_primary %}
+  <div class="usa-footer-primary-section">
+    <div class="usa-grid">
+      <nav class="usa-footer-nav {{ footer_menu_width }}">
+
+        {% if page.footer_menu %}
+        {{ page.footer_menu }}
+        {% endif %}
+
+      </nav>
+
+      {% if page.footer %}
+      <div class="usa-grid">
+        {{ page.footer }}
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+  {% endif %}
+
+  {% if display_footer_secondary %}
+  <div class="usa-footer-secondary_section">
+
+  </div>
+  {% endif %}
+
+</footer>
