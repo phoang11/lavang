@@ -444,7 +444,7 @@ function _lavang_content_hoi_doan($menu_weight) {
 
   // Create link to Hội Đoàn page.
   MenuLinkContent::create([
-    'title'      => 'Hiệp Sĩ Đoàn',
+    'title'      => 'Hội Cao Niên',
     'link'       => ['uri' => 'internal:/node/17'],
     'menu_name'  => 'main',
     'weight'     => 5,
