@@ -21,17 +21,17 @@
         "drupal-composer/drupal-scaffold": "^2.2",
         "drupal/admin_toolbar": "^1.23",
         "drupal/console": "^1.0.2",
-        "drupal/core": "~8.5.0-rc1",
+        "drupal/core": "~8.5",
         "drupal/menu_block": "^1.4",
         "drupal/pathauto": "^1.0",
         "drupal/redirect": "^1.0",
         "drupal/uswds": "^1.0@beta",
-        "drush/drush": "^9.0.0",
+        "drush/drush": "^9.2",
         "webflo/drupal-finder": "^1.0.0",
         "webmozart/path-util": "^2.3"
     },
     "require-dev": {
-        "webflo/drupal-core-require-dev": "~8.5.0-rc1"
+        "webflo/drupal-core-require-dev": "~8.5"
     },
     "conflict": {
         "drupal/drupal": "*"
