@@ -1,10 +1,4 @@
 /*! uswds @version */
-html {
-  box-sizing: border-box; }
-
-*, *::after, *::before {
-  box-sizing: inherit; }
-
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 /**
  * 1. Set default font family to sans-serif.
@@ -412,10 +406,9 @@ th {
 /* stylelint-enable */
 .usa-grid,
 .usa-grid-full {
-  max-width: 1200px;
+  max-width: 1040px;
   margin-left: auto;
-  margin-right: auto;
-  max-width: 1040px; }
+  margin-right: auto; }
   .usa-grid::after,
   .usa-grid-full::after {
     clear: both;
@@ -1281,6 +1274,12 @@ select {
   color: #757575;
   content: ' (optional)'; }
 
+.usa-input-label-helper {
+  color: #757575; }
+
+.usa-input-label-required {
+  color: #981b1e; }
+
 label {
   display: block;
   margin-top: 3rem;
@@ -2085,12 +2084,11 @@ dfn {
         margin-top: 0; } }
 
 .usa-banner-inner {
-  max-width: 1200px;
+  max-width: 1040px;
   margin-left: auto;
   margin-right: auto;
   padding-right: 1.5rem;
-  padding-left: 1.5rem;
-  max-width: 1040px; }
+  padding-left: 1.5rem; }
   .usa-banner-inner::after {
     clear: both;
     content: "";
@@ -2285,7 +2283,12 @@ dfn {
     .usa-footer .usa-footer-primary-link {
       border-top: none; } }
   .usa-footer .usa-footer-primary-link:hover {
+    cursor: pointer;
     text-decoration: underline; }
+    @media screen and (min-width: 600px) {
+      .usa-footer .usa-footer-primary-link:hover {
+        cursor: auto;
+        text-decoration: none; } }
 
 .usa-footer .usa-footer-primary-link ~ li a,
 .usa-footer .usa-footer-secondary-link {
@@ -2894,14 +2897,13 @@ fieldset {
 
 @media screen and (min-width: 951px) {
   .usa-header-extended .usa-navbar {
-    max-width: 1200px;
+    max-width: 1040px;
     margin-left: auto;
     margin-right: auto;
     padding-right: 3rem;
     padding-left: 3rem;
     display: block;
-    height: auto;
-    max-width: 1040px; }
+    height: auto; }
     .usa-header-extended .usa-navbar::after {
       clear: both;
       content: "";
@@ -2916,13 +2918,12 @@ fieldset {
 
 @media screen and (min-width: 951px) {
   .usa-header-extended .usa-nav-inner {
-    max-width: 1200px;
+    max-width: 1040px;
     margin-left: auto;
     margin-right: auto;
     padding-right: 3rem;
     padding-left: 1.5rem;
     margin-top: -1px;
-    max-width: 1040px;
     position: relative; }
     .usa-header-extended .usa-nav-inner::after {
       clear: both;
@@ -3034,12 +3035,11 @@ fieldset {
 
 @media screen and (min-width: 951px) {
   .usa-nav-container {
-    max-width: 1200px;
+    max-width: 1040px;
     margin-left: auto;
     margin-right: auto;
     padding-right: 3rem;
-    padding-left: 3rem;
-    max-width: 1040px; }
+    padding-left: 3rem; }
     .usa-nav-container::after {
       clear: both;
       content: "";
