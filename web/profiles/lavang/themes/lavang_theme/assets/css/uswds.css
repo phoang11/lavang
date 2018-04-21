@@ -3544,7 +3544,7 @@ fieldset {
       left: auto;
       position: relative; } }
 
-input[type=search] {
+input[type="search"] {
   /* stylelint-disable-line selector-no-qualifying-type */
   box-sizing: border-box;
   appearance: none; }
@@ -3699,3 +3699,12 @@ input[type=search] {
     position: absolute;
     top: 0;
     transition: all 0.2s ease-in-out; }
+
+@media screen and (min-width: 951px) {
+  .usa-header-basic .usa-navbar {
+    width: 35%; }
+  .usa-logo-text {
+    font-size: 3.5rem; } }
+
+.usa-hero {
+  background-image: url(../../images/home-hero.jpg); }

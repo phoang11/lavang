@@ -2,3 +2,5 @@
 @import "_variables.scss";
 // Import the USWDS source.
 @import "../node_modules/uswds/src/stylesheets/uswds.scss";
+// Import the custom styles.
+@import "lavang_theme.scss";

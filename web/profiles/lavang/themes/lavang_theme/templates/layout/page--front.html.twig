@@ -54,42 +54,31 @@
 
 </header>
 
-<section class="usa-section uswds-middle-section">
-
+{% if page.hero %}
+<section class="usa-hero">
   <div class="usa-grid">
-    <div class="usa-width-two-thirds">
-      <img src="http://via.placeholder.com/645x350">
+    <div class="usa-hero-callout usa-section-dark">
+      {{ page.hero }}
+      </div>
     </div>
-
-    <div class="usa-width-one-third">
-      {# <a id="main-content" tabindex="-1"></a> #}
-
-      <h3>Thanh Le Trong Tuan</h3>
-      <img src="http://via.placeholder.com/495x310">
-    </div>
-  </div>
-
 </section>
+{% endif %}
 
-<section class="usa-section uswds-middle-section">
-  <div class="usa-grid">
-    <h3>Y Nguyen Duc DTC Francis  Thang 3</h3>
-    <img src="http://via.placeholder.com/950x150">
-  </div>
-</section>
+
 
 <section class="usa-section uswds-middle-section">
 
   <div class="usa-grid">
 
     <div class="usa-width-one-half">
-      <h3>Thong Bao</h3>
-      <img src="http://via.placeholder.com/495x250">
+    {# <a id="main-content" tabindex="-1"></a> #}
+      <h3>Thong Bao & Lich Sinh Hoat</h3>
+      <img src="http://via.placeholder.com/495x500">
     </div>
 
     <div class="usa-width-one-half">
-      <h3>One Third</h3>
-      <img src="http://via.placeholder.com/495x250">
+      <h3>Lich Phung Vu</h3>
+      <img src="http://via.placeholder.com/495x500">
     </div>
 
    {#  <div class="usa-width-one-third">
@@ -101,7 +90,12 @@
 
 </section>
 
-
+<section class="usa-section uswds-middle-section">
+  <div class="usa-grid">
+    <h3>Y Nguyen Duc DTC Francis  Thang 3</h3>
+    <img src="http://via.placeholder.com/950x150">
+  </div>
+</section>
 
 <footer class="{{ footer_classes }}" role="contentinfo">
   <div class="usa-grid usa-footer-return-to-top">
