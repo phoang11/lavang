@@ -2,13 +2,48 @@
   .usa-header-basic .usa-navbar {
     width: 35%;
   }
-
   .usa-logo-text {
       font-size: 3.5rem;
   }
-
 }
 
 .usa-hero {
   background-image: url(../../images/home-hero.jpg);
+}
+
+.lavang-pope-tweet-header {
+  margin-top: 0;
+}
+
+.lavang-pope-tweet-time-ago {
+  display: block;
+  text-align: right;
+  span {
+    color: #02bfe7;
+    font-size: 1.3rem;
+    padding-right: 0.5em;
+  }
+  img {
+    width: 2.5rem;
+  }
+}
+
+.lavang-pope-tweet-text {
+  margin: 1.5em 0;
+}
+
+.lavang-pope-tweet-footer {
+  color: #02bfe7;
+  display: block;
+  font-size: 1.3rem;
+  span {
+    display: inline-block;
+    margin-bottom: 1em;
+  }
+  .lavang-pope-tweet-favorite-count{
+    float: left;
+  }
+  .lavang-pope-tweet-retweet-count {
+    float: right;
+  }
 }
