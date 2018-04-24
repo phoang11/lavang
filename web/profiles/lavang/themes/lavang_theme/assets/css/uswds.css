@@ -3708,3 +3708,33 @@ input[type="search"] {
 
 .usa-hero {
   background-image: url(../../images/home-hero.jpg); }
+
+.lavang-pope-tweet-header {
+  margin-top: 0; }
+
+.lavang-pope-tweet-time-ago {
+  display: block;
+  text-align: right; }
+  .lavang-pope-tweet-time-ago span {
+    color: #02bfe7;
+    font-size: 1.3rem;
+    padding-right: 0.5em; }
+  .lavang-pope-tweet-time-ago img {
+    width: 2.5rem; }
+
+.lavang-pope-tweet-text {
+  margin: 1.5em 0; }
+
+.lavang-pope-tweet-footer {
+  color: #02bfe7;
+  display: block;
+  font-size: 1.3rem; }
+  .lavang-pope-tweet-footer a {
+    text-decoration: none; }
+  .lavang-pope-tweet-footer span {
+    display: inline-block;
+    margin-bottom: 1em; }
+  .lavang-pope-tweet-footer .lavang-pope-tweet-favorite-count {
+    float: left; }
+  .lavang-pope-tweet-footer .lavang-pope-tweet-retweet-count {
+    float: right; }
