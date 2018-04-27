@@ -18,7 +18,7 @@ use TwitterAPIExchange;
  * @Block(
  *   id = "lavang_pope_tweet_block",
  *   admin_label = @Translation("Pope Francis"),
- *   category = @Translation("Custom")
+ *   category = @Translation("Lavang Block")
  * )
  */
 class PopeTweetBlock extends BlockBase implements ContainerFactoryPluginInterface {
@@ -31,7 +31,7 @@ class PopeTweetBlock extends BlockBase implements ContainerFactoryPluginInterfac
   protected $routeMatch;
 
   /**
-   * Constructs a new ExampleBlock instance.
+   * Constructs a new PopeTweetBlock instance.
    *
    * @param array $configuration
    *   The plugin configuration, i.e. an array with configuration values keyed
@@ -90,7 +90,7 @@ class PopeTweetBlock extends BlockBase implements ContainerFactoryPluginInterfac
                       ->performRequest();
 
     $recent_tweet = json_decode($recent_tweet, TRUE);
-    
+
     $time_difference = REQUEST_TIME - strtotime($recent_tweet[0]["created_at"]);
     $time_ago = \Drupal::service('date.formatter')->formatInterval($time_difference, 1, 'vi');
     $retweet_count = number_format_short($recent_tweet[0]["retweet_count"]);
