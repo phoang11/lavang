@@ -1,0 +1,8 @@
+name: Lavang Block
+type: module
+description: Provides custom block for the Lavang distribution.
+package: Lavang
+core: 8.x
+dependencies:
+  - lavang_core
+  - block

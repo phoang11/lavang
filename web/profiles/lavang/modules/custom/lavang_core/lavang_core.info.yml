@@ -1,0 +1,13 @@
+name: Lavang Core
+type: module
+description: Shared functionality for the Lavang distribution.
+package: Lavang
+core: 8.x
+dependencies:
+  - block
+  - node
+  - path
+  - text
+components:
+  - lavang_block
+  
