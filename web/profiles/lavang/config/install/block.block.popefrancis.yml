@@ -1,0 +1,25 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - lavang_pope_tweet
+    - system
+  theme:
+    - lavang_theme
+id: popefrancis
+theme: lavang_theme
+region: hero
+weight: 0
+provider: null
+plugin: lavang_pope_tweet_block
+settings:
+  id: lavang_pope_tweet_block
+  label: 'Pope Francis'
+  provider: lavang_pope_tweet
+  label_display: visible
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }

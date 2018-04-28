@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - lavang_block
+    - system
+  theme:
+    - lavang_theme
+id: popepraying
+theme: lavang_theme
+region: home_highlighted
+weight: 0
+provider: null
+plugin: lavang_block_pope_praying
+settings:
+  id: lavang_block_pope_praying
+  label: 'Pope Praying'
+  provider: lavang_block
+  label_display: '0'
+  content: "<h4>Tháng Tư, 2018 <br > <br > Cầu nguyện cho giới hữu trách về nền kinh tế</h4>\r\n      <p>\r\n        Chúng ta hãy cùng nhau lên tiếng, để yêu cầu các nhà kinh tế biết can đảm từ chối nền kinh tế loại trừ con người, và biết cách mở ra những con đường mới.\r\n      </p>"
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }

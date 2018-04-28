@@ -7,6 +7,7 @@ dependencies:
   - node
   - block
   - breakpoint
+  - contextual
   - ckeditor
   - config
   - menu_link_content
@@ -26,6 +27,9 @@ dependencies:
   - views
   - automated_cron
   - toolbar
+  - lavang_core
+  - lavang_block
+  - lavang_pope_tweet
 themes:
   - lavang_theme
   - seven
