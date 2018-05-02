@@ -8,6 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Component\Utility\SafeMarkup;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use TwitterAPIExchange;
@@ -80,7 +81,7 @@ class PopeTweetBlock extends BlockBase implements ContainerFactoryPluginInterfac
     /** Perform a GET request and echo the response **/
     /** Note: Set the GET field BEFORE calling buildOauth(); **/
     $url = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
-    $getfield = '?screen_name=Pontifex&count=1';
+    $getfield = '?screen_name=Pontifex&count=1&tweet_mode=extended';
     $requestMethod = 'GET';
     $twitter = new TwitterAPIExchange($settings);
 
@@ -90,7 +91,7 @@ class PopeTweetBlock extends BlockBase implements ContainerFactoryPluginInterfac
                       ->performRequest();
 
     $recent_tweet = json_decode($recent_tweet, TRUE);
-
+// print_r($recent_tweet);
     $time_difference = REQUEST_TIME - strtotime($recent_tweet[0]["created_at"]);
     $time_ago = \Drupal::service('date.formatter')->formatInterval($time_difference, 1, 'vi');
     $retweet_count = number_format_short($recent_tweet[0]["retweet_count"]);
@@ -102,7 +103,7 @@ class PopeTweetBlock extends BlockBase implements ContainerFactoryPluginInterfac
     $markup .= '<span class="lavang-pope-tweet-time">' . $time_ago . ' ago</span>';
     $markup .= '<img src="/profiles/lavang/themes/lavang_theme/images/twitter.svg" alt="twitter">';
     $markup .= '</div>';
-    $markup .= '<p class="lavang-pope-tweet-text">' . $recent_tweet[0]["text"] .'</p>';
+    $markup .= '<p class="lavang-pope-tweet-text">' . SafeMarkup::checkPlain($recent_tweet[0]["full_text"]) .'</p>';
 
     $markup .= '<div class="lavang-pope-tweet-footer">';
     $markup .= '<span class="lavang-pope-tweet-favorite-count">' . $favorite_count . ' likes</span>';
