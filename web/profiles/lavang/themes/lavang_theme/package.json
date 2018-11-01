@@ -10,14 +10,14 @@
   "devDependencies": {
     "autoprefixer": "^7.1.1",
     "cssnano": "^3.10.0",
-    "node-sass": "^4.8.3",
-    "postcss": "^6.0.21",
+    "node-sass": "^4.9.4",
+    "postcss": "^6.0.23",
     "postcss-cli": "^4.1.0",
-    "uswds": "^1.6.1",
+    "uswds": "^1.6.9",
     "watch": "^1.0.2"
   },
   "dependencies": {
-    "npm": "^5.8.0",
-    "sass": "^1.2.1"
+    "npm": "^5.10.0",
+    "sass": "^1.14.3"
   }
 }

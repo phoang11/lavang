@@ -27,6 +27,13 @@ dependencies:
   - views
   - automated_cron
   - toolbar
+  - ctools
+  - pathauto
+  - token
+  - redirect
+  - menu_block
+  - context
+  - context_ui
   - lavang_core
   - lavang_block
   - lavang_pope_tweet

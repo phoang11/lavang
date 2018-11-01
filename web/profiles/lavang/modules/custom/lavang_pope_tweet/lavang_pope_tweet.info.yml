@@ -1,5 +1,5 @@
 name: Pope Tweet
 type: module
 description: Display most recent tweet from Pope Twitter account.
-package: custom
+package: Lavang
 core: 8.x

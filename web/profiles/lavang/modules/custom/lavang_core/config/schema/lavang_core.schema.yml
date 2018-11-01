@@ -1,0 +1,7 @@
+block.settings.lavang_core_sidebar_navigation:
+  type: block_settings
+  label: 'Sidebar Navigation block'
+  mapping:
+    content:
+      type: string
+      label: Content
