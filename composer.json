@@ -22,19 +22,19 @@
         "drupal/admin_toolbar": "^1.23",
         "drupal/console": "~1.0",
         "drupal/context": "^4.0@beta",
-        "drupal/core": "~8.5",
+        "drupal/core": "~8.7",
         "drupal/features": "^3.7",
         "drupal/menu_block": "^1.4",
         "drupal/pathauto": "^1.0",
         "drupal/redirect": "^1.0",
-        "drupal/uswds": "^1.0@beta",
+        "drupal/uswds": "^1.0",
         "drush/drush": "^9.2",
         "j7mbo/twitter-api-php": "^1.0",
         "webflo/drupal-finder": "^1.0.0",
         "webmozart/path-util": "^2.3"
     },
     "require-dev": {
-        "webflo/drupal-core-require-dev": "~8.5"
+        "webflo/drupal-core-require-dev": "~8.7"
     },
     "conflict": {
         "drupal/drupal": "*"
