@@ -16,10 +16,3 @@ jobs:
     steps:
       - checkout:
           path: /project
-      - run:
-          name: "Install Dependencies"
-          command: |
-            composer install
-      - run:
-          name: "Behat Tests"
-          command: vendor/bin/behat
